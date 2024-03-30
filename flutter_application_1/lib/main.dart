@@ -1,67 +1,164 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:async';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main1.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 void main() {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: main0(),
+      home: Main0(),
     ),
   );
 }
 
-class main0 extends StatefulWidget {
-  const main0({super.key});
+class Main0 extends StatefulWidget {
+  const Main0({Key? key}) : super(key: key);
 
   @override
-  State<main0> createState() => _main0State();
+  State<Main0> createState() => _Main0State();
 }
 
-class _main0State extends State<main0> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Future.delayed(
-      Duration(seconds: 3),
-    ).then(
-      (value) {
-        Navigator.of(context).pushReplacement(
-          CupertinoPageRoute(
-            builder: (Shaka) => Main1(),
-          ),
-        );
-      },
-    );
-  }
-
+class _Main0State extends State<Main0> {
+  Container Shahabek = Container(height: 100);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[900],
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Image(
-              height: 150,
-              width: 150,
-              image: NetworkImage(
-                  "https://th.bing.com/th/id/R.5339e7d9e2e13ab19795f3993402edc6?rik=yy9CU7USxGRgfA&riu=http%3a%2f%2fwww.pngplay.com%2fwp-content%2fuploads%2f2%2fTropical-Palm-Tree-PNG-Background.png&ehk=%2fV4IjzKWcQIpwhh7cK43gYxysc1NBncPNJ34lo7C7tk%3d&risl=&pid=ImgRaw&r=0"),
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('images/round.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+              child: Container(
+                height: 650,
+                width: 500,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 25, left: 25),
+                          child: CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Colors.green,
+                            child: Icon(Icons.check,
+                                size: 20, color: Colors.white),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 30, left: 10),
+                          child: Text(
+                            'Bato',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.green,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 40),
+                    Center(
+                      child: Image(
+                          height: 250,
+                          width: double.infinity,
+                          image: AssetImage('Images/yomon.gif'),
+                          fit: BoxFit.cover),
+                    ),
+                    SizedBox(height: 15),
+                    Center(
+                      child: Text(
+                        'Hello!',
+                        style: TextStyle(
+                          fontSize: 40,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'welcome to our application, best place',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Center(
+                      child: Text(
+                        'to manage your schedule',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 65),
+                    IconButton(
+                      onPressed: () {
+                        Future.delayed(Duration(seconds: 5), () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MainScreen(),
+                            ),
+                          );
+                        });
+                        Shahabek = Container(
+                          height: 100,
+                          child: Center(
+                            child:
+                                SpinKitRing(color: Colors.black, lineWidth: 4),
+                          ),
+                        );
+                      },
+                      icon: Container(
+                        height: 50,
+                        width: 500,
+                        decoration: BoxDecoration(
+                          color: Colors.blue[900],
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Next',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
-          Center(
-            child: Text(
-              "Tropicool",
-              style: TextStyle(
-                  fontSize: 50,
-                  color: Colors.green,
-                  fontWeight: FontWeight.w900),
-            ),
-          )
-        ],
+        ),
       ),
     );
   }

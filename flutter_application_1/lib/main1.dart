@@ -1,60 +1,196 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'main2.dart';
-import 'main3.dart';
-import 'main4.dart';
-import 'main5.dart';
+import 'package:flutter_application_1/main2.dart';
 
 void main() {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Main1(),
+      home: MainScreen(),
     ),
   );
 }
 
-class Main1 extends StatefulWidget {
-  const Main1({Key? key}) : super(key: key);
+class MainScreen extends StatefulWidget {
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
-  State<Main1> createState() => _Main1State();
+  _MainScreenState createState() => _MainScreenState();
 }
 
-class _Main1State extends State<Main1> {
+class _MainScreenState extends State<MainScreen> {
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  String usernameText = '';
+  String passwordText = '';
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 4,
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        appBar: AppBar(
-          toolbarHeight: 100,
-          backgroundColor: Colors.grey[900],
-          title: Text(
-            "Today's Tasks",
-            style: TextStyle(
-                fontSize: 25, color: Colors.green, fontWeight: FontWeight.w900),
-          ),
-          centerTitle: true,
-          bottom: TabBar(
-            labelColor: Colors.green,
-            indicatorColor: Colors.green,
-            dividerColor: Colors.black,
-            unselectedLabelColor: Colors.green,
-            tabs: [
-              Tab(text: "Personal"),
-              Tab(text: "Default"),
-              Tab(text: "Study"),
-              Tab(text: "Work"),
-            ],
+    return Scaffold(
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('images/round.jpg'),
+            fit: BoxFit.cover,
           ),
         ),
-        body: TabBarView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Main2(),
-            Main3(),
-            Main4(),
-            Main5(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 15, right: 15, left: 15),
+                  child: CircleAvatar(
+                    radius: 20,
+                    backgroundColor: Colors.green,
+                    child: Center(
+                      child: Icon(Icons.check, size: 20, color: Colors.white),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20, right: 15),
+                  child: Text(
+                    'Bato',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.green,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
+            Center(
+              child: Text(
+                'Welcome!',
+                style: TextStyle(fontSize: 50),
+              ),
+            ),
+            SizedBox(height: 80),
+            ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                child: TextField(
+                  cursorColor: Colors.black,
+                  controller: usernameController,
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                      borderSide: BorderSide(color: Colors.black, width: 1),
+                    ),
+                    labelText: 'Username',
+                  ),
+                  onSubmitted: (String value) {
+                    setState(() {
+                      usernameText = value;
+                    });
+                  },
+                ),
+              ),
+            ),
+            SizedBox(height: 15),
+            ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+                child: TextField(
+                  cursorColor: Colors.black,
+                  controller: passwordController,
+                  obscureText: true,
+                  textAlign: TextAlign.center, // Matn markaziga qaratilgan
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                      borderSide: BorderSide(color: Colors.black, width: 1),
+                    ),
+                    labelText: 'Password',
+                  ),
+                  onSubmitted: (String value) {
+                    setState(() {
+                      passwordText = value;
+                    });
+                  },
+                ),
+              ),
+            ),
+            SizedBox(height: 50),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  String correctUsername = 'Shukurillo08';
+                  String correctPassword = '1111qq++';
+
+                  if (usernameController.text == correctUsername &&
+                      passwordController.text == correctPassword) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DynamicRows(),
+                      ),
+                    );
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Xatolik'),
+                          content: Text(
+                              'Noto\'g\'ri foydalanuvchi nomi yoki parol!'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  minimumSize: Size(200, 50),
+                ),
+                child: Text(
+                  'Login',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ),
+            SizedBox(height: 50),
+            Center(
+              child: Text('Username: $usernameText'),
+            ),
+            Center(
+              child: Text('Password: $passwordText'),
+            ),
+            SizedBox(height: 20),
+            Center(
+              child: Text('Usename: Shukurillo08'),
+            ),
+            Center(
+              child: Text('Password: 1111qq++'),
+            ),
           ],
         ),
       ),
